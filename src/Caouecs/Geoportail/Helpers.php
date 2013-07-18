@@ -6,8 +6,8 @@ class Helpers {
      * Validation of array with a validator
      *
      * @access public
-     * @param array $array Array to tested
-     * @param array $validator Validator
+     * @param  array $array Array to tested
+     * @param  array $validator Validator
      * @return array
      */
     public static function validArray($array, $validator)
@@ -77,7 +77,7 @@ class Helpers {
                     case "string":
                     // Default
                     default:
-                        $return[$key] = e($value);
+                        $return[$key] = self::protectString($value);
                 }
             }
         }
@@ -89,15 +89,26 @@ class Helpers {
      * Add value in an array
      *
      * @access public
-     * @param array $array Array object
-     * @param string $value Value to add
-     * @param string $key Array key to use
+     * @param  array  $array Array object
+     * @param  string $value Value to add
+     * @param  string $key Array key to use
      * @return array
      */
-    public static function add_class($array, $value, $key = 'class')
+    public static function addClass($array, $value, $key = 'class')
     {
         $array[$key] = isset($array[$key]) ? $array[$key].' '.$value : $value;
 
         return $array;
     }
+
+	/**
+	 * Escape HTML entities in a string.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function protectString($value)
+	{
+		return htmlentities($value, ENT_QUOTES, 'UTF-8', false);
+	}
 }

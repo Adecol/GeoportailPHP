@@ -3,17 +3,6 @@
 use \HTML, \Config, \View;
 
 class Map {
-
-    /**
-     * Type of Geoportail API
-     *
-     * @access protected
-     * @var array
-     *
-     * @todo mobile, 3D
-     */
-    protected static $geoportail_api = array("default", "min", "extended");
-
     /**
      * Canvas id
      *
@@ -93,21 +82,26 @@ class Map {
      * @param string $id Canvas id
      * @param string $api Type of api
      * @return void
+     * @throws Exception
      */
     public function __construct($id = null, $api = null)
     {
+        // key
+        $this->key = Config::get("geoportail::geoportail.key");
+
+        if ($this->key == null) {
+            throw new Exception('Geoportail key needed');
+        }
+
         // canvas id
         if ($id != null) {
-            $this->id = e($id);
+            $this->id = Helpers::protectString($id);
         }
 
         // API
         if ($api != null) {
             $this->setAPI($api);
         }
-
-        // key
-        $this->key = Config::get("geoportail::geoportail.key");
 
         // center
         $this->setCenter(
@@ -117,8 +111,8 @@ class Map {
 
         // by default
         $this->options = array(
-            "type" => "js",
-            "language" => Config::get("geoportail::geoportail.language")
+            "type"      => "js",
+            "language"  => Config::get("geoportail::geoportail.language")
         );
     }
 
@@ -128,7 +122,7 @@ class Map {
      * @access public
      * @param string $id Canvas id
      * @param string $api Type of api
-     * @return \Map
+     * @return Map
      */
     public static function create($id = null, $api = null)
     {
@@ -145,7 +139,7 @@ class Map {
      * @access public
      * @param string $id Canvas id
      * @param string $api Type of api
-     * @return \Map
+     * @return Map
      */
     public static function createSimple($id = null, $api = null)
     {
@@ -162,7 +156,7 @@ class Map {
      * @access public
      * @param string $id Canvas id
      * @param string $api Type of api
-     * @return \Map
+     * @return Map
      */
     public static function createStandard($id = null, $api = null)
     {
@@ -189,12 +183,12 @@ class Map {
      *
      * @access public
      * @param string $api New api
-     * @return \Map
+     * @return Map
      */
     public function setAPI($api)
     {
         $api = strtolower($api);
-        if (in_array($api, self::$geoportail_api)) {
+        if (in_array($api, Config::get("geoportail::geoportail.api"))) {
             $this->api = $api;
         }
 
@@ -206,12 +200,12 @@ class Map {
      *
      * @access public
      * @param string $key New key
-     * @return \Map
+     * @return Map
      */
     public function setKey($key)
     {
-        if (is_string($key)) {
-            $this->key = e($key);
+        if (!empty($key) && is_string($key)) {
+            $this->key = Helpers::protectString($key);
         }
 
         return $this;
@@ -222,7 +216,7 @@ class Map {
      *
      * @access public
      * @param int $zoom New zoom
-     * @return \Map
+     * @return Map
      */
     public function setZoom($zoom)
     {
@@ -238,7 +232,7 @@ class Map {
      *
      * @access public
      * @param string $viewerClass New viewerClass
-     * @return \Map
+     * @return Map
      */
     public function setViewerClass($viewerClass)
     {
@@ -256,23 +250,23 @@ class Map {
      * @access public
      * @param string $type Type of center
      * @param string|array $value Value of center
-     * @return \Map
+     * @return Map
      */
     public function setCenter($type, $value)
     {
         // Address and Place
         if (($type === "address" || $type === "place") && is_string($value)) {
-            $this->center = $type.': "'.e($value).'"';
+            $this->center = $type.': "'.Helpers::protectString($value).'"';
         // OpenLayers
         } elseif ($type == "OpenLayers" && is_string($value)) {
-            $this->center = 'center: new OpenLayers.LonLat('.e($value).')';
+            $this->center = 'center: new OpenLayers.LonLat('.Helpers::protectString($value).')';
         // Geolocate
         } elseif ($type == "geolocate" && $value === true) {
             $this->center = 'geolocate: true';
             $this->options['marker'] = false;
         // GPS
         } elseif ($type === "gps" && is_array($value) && count($value) == 2) {
-            $this->center = 'lon: "'.e($value[0]).'", lat: "'.e($value[1]).'"';
+            $this->center = 'lon: "'.Helpers::protectString($value[0]).'", lat: "'.Helpers::protectString($value[1]).'"';
         }
 
         return $this;
@@ -283,7 +277,7 @@ class Map {
      *
      * @access public
      * @param string $language New language
-     * @return \Map
+     * @return Map
      */
     public function setLanguage($language)
     {
@@ -299,12 +293,12 @@ class Map {
      *
      * @access public
      * @param string $displayProjection New displayProjection
-     * @return \Map
+     * @return Map
      */
     public function setDisplayProject($displayProjection)
     {
         if (is_string($displayProjection)) {
-            $this->options['displayProjection'] = e($displayProjection);
+            $this->options['displayProjection'] = Helpers::protectString($displayProjection);
         }
 
         return $this;
@@ -315,12 +309,12 @@ class Map {
      *
      * @access public
      * @param string $proxyUrl New proxyUrl
-     * @return \Map
+     * @return Map
      */
     public function setProxyUrl($proxyUrl)
     {
         if (is_string($proxyUrl)) {
-            $this->options['proxyUrl'] = e($proxyUrl);
+            $this->options['proxyUrl'] = Helpers::protectString($proxyUrl);
         }
 
         return $this;
@@ -330,7 +324,7 @@ class Map {
      * Hidden marker
      *
      * @access public
-     * @return \Map
+     * @return Map
      */
     public function hiddenMarker()
     {
@@ -343,7 +337,7 @@ class Map {
      * Visible marker
      *
      * @access public
-     * @return \Map
+     * @return Map
      */
     public function visibleMarker()
     {
@@ -358,13 +352,13 @@ class Map {
      * Remove overlays
      *
      * @access public
-     * @param string $overlays Name of overlays
-     * @return \Map
+     * @param string $name Name of overlays
+     * @return Map
      */
-    public function removeOverlays($overlays)
+    public function removeOverlays($name)
     {
-        if (isset($this->overlays[$overlays])) {
-            unset($this->overlays[$overlays]);
+        if (isset($this->overlays[$name])) {
+            unset($this->overlays[$name]);
         }
 
         return $this;
@@ -382,7 +376,7 @@ class Map {
     public function canvas($width = null, $height = null, $attributes = array())
     {
         // attributes
-        $attributes = Helpers::add_class($attributes, $this->id, "id");
+        $attributes = Helpers::addClass($attributes, $this->id, "id");
 
         // size
         if ($width == null) {
@@ -392,7 +386,7 @@ class Map {
             $height = Config::get("geoportail::geoportail.canvas.height");
         }
 
-        $attributes = Helpers::add_class($attributes, "width: ".e($width)."; height: ".e($height), "style");
+        $attributes = Helpers::addClass($attributes, "width: ".Helpers::protectString($width)."; height: ".Helpers::protectString($height), "style");
 
         return '<div'.HTML::attributes($attributes).'></div>';
     }
@@ -434,9 +428,6 @@ class Map {
             $options = implode(", ", $tmp);
         }
 
-        if (!empty($this->overlays) || !empty($this->functions)) {
-            //$options .= ', onView: initMap';
-        }
 
         // layer options
         if (!empty($this->layer_option)) {
@@ -451,19 +442,14 @@ class Map {
             $options .= implode(",", $_opt).'}';
         }
 
-        // overlays
-        /*if (!empty($this->overlays)) {
-            $options .= ', overlays: '.json_encode($this->overlays);
-        }*/
-
         // base
         $view = array(
-            "id" => $this->id,
-            "key" => $this->key,
-            "zoom" => $this->zoom,
-            "center" => $this->center,
-            "options" => $options,
-            "overlays" => $this->overlays,
+            "id"        => $this->id,
+            "key"       => $this->key,
+            "zoom"      => $this->zoom,
+            "center"    => $this->center,
+            "options"   => $options,
+            "overlays"  => $this->overlays,
             "functions" => null
         );
 

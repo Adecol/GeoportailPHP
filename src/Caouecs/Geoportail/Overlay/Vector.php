@@ -48,14 +48,14 @@ class Vector extends Core {
      */
     public function __construct($name, $path, $param_layer = array(), $param_popup = array())
     {
-        $this->name = e($name);
+        $this->name = Helpers::protectString($name);
         $this->path = (string) $path;
 
         // verif param_layer
-        $this->param_layer = self::verifParamLayer($param_layer);
+        $this->param_layer = $this->verifParamLayer($param_layer);
 
         // verif param_popup
-        $this->param_popup = self::verifParamPopup($param_popup);
+        $this->param_popup = $this->verifParamPopup($param_popup);
     }
 
     /**
@@ -63,7 +63,7 @@ class Vector extends Core {
      *
      * @access public
      * @param string $path
-     * @return \Vector
+     * @return Vector
      */
     public function setPath($path)
     {
@@ -78,7 +78,7 @@ class Vector extends Core {
      * @access public
      * @param string $param
      * @param string $value
-     * @return \Vector
+     * @return Vector
      */
     public function setParamLayer($param, $value)
     {
@@ -92,7 +92,7 @@ class Vector extends Core {
      *
      * @access public
      * @param string $param
-     * @return \Vector
+     * @return Vector
      */
     public function removeParamLayer($param)
     {
@@ -106,35 +106,21 @@ class Vector extends Core {
     /**
      * Verif datas of param_layer
      *
-     * @access protected
+     * @access public
      * @param array $param_layer Params of layer
      * @return array
-     *
-     * @todo Add styleMap and others options
      */
-    protected static function verifParamLayer($param_layer)
+    public function verifParamLayer($param_layer)
     {
         if (!is_array($param_layer)) {
             return null;
         }
 
-        $validator = array(
-            "visibility" => array("boolean", false),
-            "opacity" => array("int", 1, array("min" => 0, "max" => 1)),
-            "minZoomLevel" => array("int", 0, array("min" => 0, "max" => 21)),
-            "maxZoomLevel" => array("int", 21, array("min" => 0, "max" => 21)),
-            "format",
-            "maxExtent",
-            "isBaseLayer" => array("boolean", false),
-            "originators" => array("array", null,
-                array(
-                    "logo",
-                    "pictureUrl",
-                    "url",
-                    "attribution"
-                )
-            )
-        );
+        $validator = $this->rules_param_layers;
+
+        if (method_exists($this, "getRulesParamLayer")) {
+            $validator = array($this->getRulesParamLayer(), $validator);
+        }
 
         return Helpers::validArray($param_layer, $validator);
     }
@@ -145,7 +131,7 @@ class Vector extends Core {
      * @access public
      * @param string $param
      * @param string $value
-     * @return \Vector
+     * @return Vector
      */
     public function setParamPopup($param, $value)
     {
@@ -173,19 +159,24 @@ class Vector extends Core {
     /**
      * Verif datas of param_popup
      *
-     * @access protected
+     * @access public
      * @param array $param_popup Params of popup
      * @return array
      *
      * @todo Finish it
      */
-    protected static function verifParamPopup($param_popup)
+    public function verifParamPopup($param_popup)
     {
         if (!is_array($param_popup)) {
             return null;
         }
 
-        // for the moment, return null
-        return null;
+        $validator = $this->rules_param_popup;
+
+        if (method_exists($this, "getRulesParamPopup")) {
+            $validator = array($this->getRulesParamPopup(), $validator);
+        }
+
+        return Helpers::validArray($param_layer, $validator);
     }
 }

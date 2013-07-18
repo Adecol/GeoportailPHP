@@ -1,6 +1,7 @@
 <?php namespace Caouecs\Geoportail\Overlay;
 
 use \Caouecs\Geoportail\Map;
+use \Caouecs\Geoportail\Helpers;
 
 class GeoJSON {
 
@@ -31,7 +32,7 @@ class GeoJSON {
      */
     public function __construct($name, $path)
     {
-        $this->name = e($name);
+        $this->name = Helpers::protectString($name);
         $this->path = (string) $path;
     }
 

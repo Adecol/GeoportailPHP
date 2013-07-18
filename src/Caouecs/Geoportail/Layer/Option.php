@@ -26,7 +26,7 @@ class Option {
      * Create
      *
      * @access public
-     * @return \Option
+     * @return Option
      */
     public static function create()
     {
@@ -38,7 +38,7 @@ class Option {
      *
      * @access public
      * @param string $layer_name Name of layer
-     * @return \Option
+     * @return Option
      */
     public function remove($layer_name)
     {
@@ -56,7 +56,7 @@ class Option {
      * @access public
      * @param string $layer_name Name of layer
      * @param string $options List of options
-     * @return \Option
+     * @return Option
      */
     public function set($layer_name, $options)
     {

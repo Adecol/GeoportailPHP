@@ -1,5 +1,7 @@
 <?php namespace Caouecs\Geoportail;
 
+use \Config;
+
 /**
  * Layers of Geoportail map
  *
@@ -13,14 +15,6 @@ class Layer {
      * @var array
      */
     public $list = array();
-
-    /**
-     * Layers by default in Geoportail
-     *
-     * @access public
-     * @var array
-     */
-    public static $geoportail_layers_default = array('ORTHOIMAGERY.ORTHOPHOTOS', 'GEOGRAPHICALGRIDSYSTEMS.MAPS', 'ADMINISTRATIVEUNITS.BOUNDARIES', 'BUILDINGS.BUILDINGS', 'ELEVATION.SLOPES', 'GEOGRAPHICALNAMES.NAMES', 'HYDROGRAPHY.HYDROGRAPHY', 'ELEVATION.LEVEL0', 'TRANSPORTNETWORKS.RAILWAYS', 'TRANSPORTNETWORKS.ROADS', 'TRANSPORTNETWORKS.RUNWAYS', 'UTILITYANDGOVERNMENTALSERVICES.ALL', 'StreetAddress', 'CADASTRALPARCELS.PARCELS', 'PositionOfInterest');
 
     /**
      * Construct
@@ -41,7 +35,7 @@ class Layer {
      *
      * @access public
      * @param array|string $layers Layers
-     * @return \Layer
+     * @return Layer
      */
     public static function create($layers = null)
     {
@@ -52,11 +46,11 @@ class Layer {
      * Add default layers
      *
      * @access public
-     * @return \Layer
+     * @return Layer
      */
     public function addDefault()
     {
-        $this->add(self::$geoportail_layers_default);
+        $this->add(Config::get("geoportail::geoportail.layers"));
 
         return $this;
     }
@@ -66,7 +60,7 @@ class Layer {
      *
      * @access public
      * @param array|string $layers Layers
-     * @return \Layer
+     * @return Layer
      */
     public function add($layers = null)
     {
@@ -89,17 +83,19 @@ class Layer {
      *
      * @access public
      * @param array|string $layers Layers
-     * @return \Layer
+     * @return Layer
      */
     public function remove($layers = null)
     {
         if (!empty($layers)) {
+            // array
             if (is_array($layers)) {
                 foreach ($layers as $layer) {
                     if (isset($this->list[$layer])) {
                         unset($this->list[$layer]);
                     }
                 }
+            // string
             } elseif (isset($this->list[$layers])) {
                 unset($this->list[$layers]);
             }

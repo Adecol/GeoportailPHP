@@ -59,7 +59,7 @@ class Marker {
      * @param string $label Label
      * @param string $description Description
      * @param string $language Language
-     * @return \Marker
+     * @return Marker
      */
     public static function create($label = null, $description = null, $language = null)
     {
@@ -73,15 +73,15 @@ class Marker {
      * @param string $label Label
      * @param string $description Description
      * @param string $language Language
-     * @return \Marker
+     * @return Marker
      */
     public function setDesc($label = null, $description = null, $language = null)
     {
-        $this->label = e($label);
-        $this->description = $description;
+        $this->label        = Helpers::protectString($label);
+        $this->description  = Helpers::protectString($description);
 
         if (mb_strlen($language) == 2) {
-            $this->language = e($language);
+            $this->language = Helpers::protectString($language);
         }
 
         return $this;
@@ -93,7 +93,7 @@ class Marker {
      * @access public
      * @param string $option Option
      * @param string $value Value
-     * @return \Marker
+     * @return Marker
      *
      * @todo Verif if "option" exists in Geoportail
      */
@@ -109,7 +109,7 @@ class Marker {
      *
      * @access public
      * @param string $option Option
-     * @return \Marker
+     * @return Marker
      */
     public function removeOption($option)
     {
@@ -131,12 +131,12 @@ class Marker {
     {
         // label
         if (!empty($this->label)) {
-            $map->options['label'] = e($this->label);
+            $map->options['label'] = $this->label;
         }
 
         // description
         if (!empty($this->description)) {
-            $map->options['description'] = e($this->description);
+            $map->options['description'] = $this->description;
         }
 
         // options

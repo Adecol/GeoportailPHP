@@ -20,7 +20,7 @@ class OSM extends Vector {
      * @param string $path Path of layer
      * @param array $param_layer Params of layer
      * @param array $param_popup Params of popup
-     * @return \OSM
+     * @return OSM
      */
     public static function create($name, $path, $param_layer = array(), $param_popup = array())
     {
@@ -28,26 +28,26 @@ class OSM extends Vector {
     }
 
     /**
-     * Verif params layer
+     * Get rules for param layer for KML
      *
-     * @access protected
-     * @param array $param_layer
+     * @access public
      * @return array
      */
-    protected static function verifParamLayer($param_layer)
+    public function rules_layer()
     {
-        return parent::verifParamLayer($param_layer);
-    }
-
-    /**
-     * Verif params popup
-     *
-     * @access protected
-     * @param array $param_popup
-     * @return array
-     */
-    protected static function verifParamPopup($param_popup)
-    {
-        return parent::verifParamPopup($param_popup);
+        return array(
+            "projection",
+            "preFeatureInsert",
+            "onFeatureInsert",
+            "formatOptions" => array("array", null,
+                array(
+                    "internalProjection",
+                    "extractAttributes" => array("boolean", true),
+                    "extractStyles" => array("boolean", true)
+                )
+            ),
+            "checkTags" => array("boolean", true),
+            "areaTags"
+        );
     }
 }

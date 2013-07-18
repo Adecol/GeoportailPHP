@@ -4,41 +4,41 @@
 
 | Name | Type | Description |
 |------|------|------|
-| id * | string | id of div to display and id of map |
-| api * | string | type of api |
-| key * | string | key of IGN.fr |
-| center * | string or array | center of map (see below) |
-| zoom * | int | |
-| options * | array | Options of map (see below) |
+| id | string | id of div to display and id of map |
+| api | string | type of api |
+| key | string | key of IGN.fr |
+| center | string or array | center of map (see below) |
+| zoom | int | |
+| options | array | Options of map (see below) |
 | overlays | array | Overlays of map (see below) |
-| functions * | array | List of functions (see below) |
+| functions | array | List of functions (see below) |
 
-### Center *
-
-| Name | Type | Description |
-|------|------|------|
-| gps * | array | lon and lat |
-| address * | string | |
-| place * | string | |
-| OpenLayers * | string | Object with lon and lat |
-| geolocate * | boolean | true for HTML5 geolocalization |
-
-### Options *
+### Center
 
 | Name | Type | Description |
 |------|------|------|
-| language * | string | fr, en |
-| type * | string | js |
-| overlays * | boolean | display or not the marker defined by the center |
-| label * | string | label of marker |
-| description * | string | description of marker |
-| viewerClass * | string | Default or Standard or Mobile |
-| layers * | array | list of layers from Geoportail, "all" => all layers |
-| layersOptions * | array | list of layersOptions (see below) |
-| displayProjection * | string | Type of projection |
-| proxyURL * | string | Proxy |
+| gps | array | lon and lat |
+| address | string | |
+| place | string | |
+| OpenLayers | string | Object with lon and lat |
+| geolocate | boolean | true for HTML5 geolocalization |
 
-### layersOptions *
+### Options
+
+| Name | Type | Description |
+|------|------|------|
+| language | string | fr, en |
+| type | string | js |
+| overlays | boolean | display or not the marker defined by the center |
+| label | string | label of marker |
+| description | string | description of marker |
+| viewerClass | string | Default or Standard or Mobile |
+| layers | array | list of layers from Geoportail, "all" => all layers |
+| layersOptions | array | list of layersOptions (see below) |
+| displayProjection | string | Type of projection |
+| proxyURL | string | Proxy |
+
+### layersOptions
 
 | Name | Type | Description |
 |------|------|-------------|
@@ -56,11 +56,11 @@
 | param_popup | array | Param popup (see below) |
 | param_service | array | Param service (see below) |
 
-### Functions *
+### Functions
 
 | Name | Type | Description |
 |------|------|-------------|
-| pan * | array | x and y |
+| pan | array | x and y |
 
 ### Param layer by default
 

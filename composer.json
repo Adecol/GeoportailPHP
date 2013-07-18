@@ -1,20 +1,27 @@
 {
     "name": "caouecs/geoportail",
-    "description": "",
+    "description": "Geoportail API of IGN for Laravel 4",
+    "keywords": ["geoportal", "map", "laravel", "lpm"],
+    "homepage": "https://github.com/caouecs/GeoportailPHP",
+    "license": "MIT",
     "authors": [
         {
             "name": "caouecs",
-            "email": "caouecs@caouecs.net"
+            "email": "caouecs@caouecs.net",
+            "role": "Developer",
+            "homepage": "https://github.com/caouecs"
         }
     ],
+    "support": {
+    	"email": "caouecs@caouecs.net",
+    	"issues": "https://github.com/caouecs/GeoportailPHP/issues",
+    	"source": "https://github.com/caouecs/GeoportailPHP"
+    },
     "require": {
         "php": ">=5.3.0",
         "illuminate/support": "4.0.x"
     },
     "autoload": {
-        "classmap": [
-            "src/migrations"
-        ],
         "psr-0": {
             "Caouecs\\Geoportail": "src/"
         }

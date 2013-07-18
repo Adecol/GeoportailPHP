@@ -1,9 +1,9 @@
 <script type="text/javascript">
-    var iv = null;
-    var viewer = null;
+    var iv_{{$id}} = null;
+    var viewer_{{$id}} = null;
 
-    function initMap() {
-        viewer = iv.getViewer();
+    function initMap_{{$id}}() {
+        viewer_{{$id}} = iv_{{$id}}.getViewer();
 
         @if (!empty($overlays))
             @foreach($overlays as $overlay)
@@ -13,13 +13,13 @@
     }
 
     window.onload=function() {
-        iv = Geoportal.load(
+        iv_{{$id}} = Geoportal.load(
             '{{$id}}',
             ['{{$key}}'],
             { {{$center}} },
             {{$zoom}},
             {
-                onView: initMap,
+                onView: initMap_{{$id}},
                 {{$options}}
             }
         );
