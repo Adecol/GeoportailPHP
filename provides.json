@@ -1,0 +1,55 @@
+{
+  "providers": [
+    "Caouecs\\Geoportail\\GeoportailServiceProvider"
+  ],
+  "aliases": [
+    {
+      "alias": "Geoportail",
+      "facade": "Caouecs\\Geoportail\\Map"
+    },
+    {
+      "alias": "GeoportailFunctions",
+      "facade": "Caouecs\\Geoportail\\Functions"
+    },
+    {
+      "alias": "GeoportailKML",
+      "facade": "Caouecs\\Geoportail\\Overlay\\KML"
+    },
+    {
+      "alias": "GeoportailGPX",
+      "facade": "Caouecs\\Geoportail\\Overlay\\GPX"
+    },
+    {
+      "alias": "GeoportailLayerOption",
+      "facade": "Caouecs\\Geoportail\\Layer\\Option"
+    },
+    {
+      "alias": "GeoportailMarker",
+      "facade": "Caouecs\\Geoportail\\Marker"
+    },
+    {
+      "alias": "GeoportailGeoJSON",
+      "facade": "Caouecs\\Geoportail\\Overlay\\GeoJSON"
+    },
+    {
+      "alias": "GeoportailGeoRSS",
+      "facade": "Caouecs\\Geoportail\\Overlay\\GeoRSS"
+    },
+    {
+      "alias": "GeoportailOSM",
+      "facade": "Caouecs\\Geoportail\\Overlay\\OSM"
+    },
+    {
+      "alias": "GeoportailWFS",
+      "facade": "Caouecs\\Geoportail\\Overlay\\WFS"
+    },
+    {
+      "alias": "GeoportailWMS",
+      "facade": "Caouecs\\Geoportail\\Overlay\\WMS"
+    },
+    {
+      "alias": "GeoportailWMTS",
+      "facade": "Caouecs\\Geoportail\\Overlay\\WMTS"
+    }
+  ]
+}
